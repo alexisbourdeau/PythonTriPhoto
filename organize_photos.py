@@ -1,5 +1,6 @@
 import os, time
 import shutil
+from datetime import datetime, timezone
 
 
 def file_creation_date(path_to_file):
@@ -7,7 +8,8 @@ def file_creation_date(path_to_file):
 
 
 def move_file(photo_path):
-	chunk = ['D:/PHOTOS']+list(time.localtime(file_creation_date(photo_path))[:-7])+[os.path.basename(photo_path)]
+	# chunk = ['D:/PHOTOS']+list(time.localtime(file_creation_date(photo_path))[:-7])+[os.path.basename(photo_path)]
+	chunk = ['D:/PHOTOS']+datetime.fromtimestamp(os.stat(photo_path).st_mtime).strftime("%Y/%m").split("/")+[os.path.basename(photo_path)]
 	chunk = list(map(str, chunk))
 	separator = '/'
 	print(separator.join(chunk))
@@ -33,9 +35,13 @@ def move_files(photo_list):
 
 # Liste des photos dans le répertoire
 move_files(list(map(
-	lambda x: 'C:/Users/Alexis BOURDEAU/Pictures/iCloud Photos/Downloads/'+x,
-	os.listdir('C:\\Users\\Alexis BOURDEAU\\Pictures\\iCloud Photos\\Downloads'
+	lambda x: 'D:/PHOTOS/ATRIER/'+x,
+	os.listdir('D:\\PHOTOS\\ATRIER'
 ))))
 
+#print(datetime.fromtimestamp(os.stat("D:/PHOTOS/ATRIER/2020/_31A5679.JPG").st_mtime).strftime("%Y/%m").split("/"))
+#print(time.localtime(file_creation_date("D:/PHOTOS/ATRIER/2020/_31A5679.JPG"))[:-7])
+#datetime.fromtimestamp(stat_result.st_mtime, tz=timezone.utc)
 
 # move_file('C:/Users/Alexis BOURDEAU/Pictures/iCloud Photos/Downloads/_talkv_wmHDzcf4pz_KBxTDva2J4uxtdvJ2OSttK_talkv_high.mp4')
+
